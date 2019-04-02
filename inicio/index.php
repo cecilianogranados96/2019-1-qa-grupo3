@@ -68,7 +68,11 @@ if(!isset($_SESSION['usuario']))
 					// $contrasenna = $_POST['contrasenna'];
 					// echo $usuario . " - " . $contrasenna;
 					$objeto = new dataBase();
-					$result = $objeto->consultar("SELECT * FROM publicacion as p inner join usuario as u on p.idUsuario = u.idUsuario order by p.idPublicacion desc");
+					$usuarioLogueado = (int)$_SESSION['id'];
+					$consulta = "SELECT * FROM publicacion as p inner join amigos as a on a.idAmigo1=p.idUsuario or a.idAmigo2=p.idUsuario inner join usuario as u on p.idUsuario = u.idUsuario where a.idAmigo1=". $usuarioLogueado . " or a.idAmigo2=". $usuarioLogueado ." order by p.idPublicacion desc;";
+					echo $consulta;
+					$consulta2 = "SELECT * FROM publicacion as p inner join usuario as u on p.idUsuario = u.idUsuario order by p.idPublicacion desc";
+					$result = $objeto->consultar($consulta);
 					// $todo = "";
 					// $objeto = 0;
 					$flag = True;
