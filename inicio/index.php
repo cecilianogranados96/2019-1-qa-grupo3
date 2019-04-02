@@ -52,7 +52,10 @@ if(!isset($_SESSION['usuario']))
 						<input type="file" name="archivo" id="archivo"></input>
 					</div>
 
-					
+					<select name="visibilidad" class="">
+						<option value="1">Pública</option>
+						<option value="0">Privada</option>
+					</select>
 
 					<div class="form-group row">
 						<!-- <label for="flname" class="col-sm-12 col-form-label labels">Usuario</label> -->
@@ -69,9 +72,26 @@ if(!isset($_SESSION['usuario']))
 					// echo $usuario . " - " . $contrasenna;
 					$objeto = new dataBase();
 					$usuarioLogueado = (int)$_SESSION['id'];
-					$consulta = "SELECT * FROM publicacion as p inner join amigos as a on a.idAmigo1=p.idUsuario or a.idAmigo2=p.idUsuario inner join usuario as u on p.idUsuario = u.idUsuario where a.idAmigo1=". $usuarioLogueado . " or a.idAmigo2=". $usuarioLogueado ." order by p.idPublicacion desc;";
-					echo $consulta;
-					$consulta2 = "SELECT * FROM publicacion as p inner join usuario as u on p.idUsuario = u.idUsuario order by p.idPublicacion desc";
+					$consulta = "SELECT * FROM publicacion as p inner join amigos as a on a.idAmigo1=p.idUsuario or a.idAmigo2=p.idUsuario inner join usuario as u on p.idUsuario = u.idUsuario where a.idAmigo1=". $usuarioLogueado . " or a.idAmigo2=". $usuarioLogueado ." or p.visibilidad=0  order by p.idPublicacion desc;";
+					
+					$consulta = "SELECT idPublicacion, idUsuarioPublicacion, titulo,
+						 visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario,, 1 as amigo
+						 FROM publicacion as p
+						 inner join amigos as a on a.idAmigo1=p.idUsuarioPublicacion or a.idAmigo2=p.idUsuarioPublicacion
+						 inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario 
+						 where a.idAmigo1=" . $usuarioLogueado . " or a.idAmigo2=" . $usuarioLogueado ."
+						 
+						 union
+						 
+						 select idPublicacion, idUsuarioPublicacion, titulo,
+						 visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 0 as amigo
+						 from publicacion as p
+						  inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario
+						 where visibilidad = 0 or idUsuarioPublicacion=" . $usuarioLogueado . "
+						  order by idPublicacion desc;";
+
+					//echo $consulta;
+					//$consulta = "SELECT * FROM publicacion as p inner join usuario as u on p.idUsuario = u.idUsuario order by p.idPublicacion desc";
 					$result = $objeto->consultar($consulta);
 					// $todo = "";
 					// $objeto = 0;
@@ -79,14 +99,21 @@ if(!isset($_SESSION['usuario']))
 					while (($fila = mysqli_fetch_array($result)) and $flag )
 					{
 						$todo = $todo . '<div class="my-2 mx-auto p-relative bg-white shadow-1" style="width: 100%; overflow: hidden; border-radius: 1px;">';
-						$todo = $todo . $fila['nombreUsuario'] . " " . $fila['apellidoUsuario'] . " - " . $fila['fecha'];
+						// $idAnnadir = 4;
+
+						// if(!((int)$fila['idAmigo1'] == $usuarioLogueado))
+						// {
+						// 	$usuarioLogueado = (int)$fila['idAmigo1'];
+						// }
+						
+						$todo = $todo . $fila['nombreUsuario'] . " " . $fila['apellidoUsuario'] . " - " . $fila['fecha'] . " Visibilidad: " . $fila['visibilidad'];// . " ID: " . $usuarioLogueado;
 						$todo = $todo . '<h4 class="card-title">' . $fila['titulo'] . '</h4>';
 						//$todo = $todo . $fila['direccionImagen'] ;
-						$todo = $todo . '<img src="' . $fila['direccionImagen'] . '" alt="' . $fila['titulo'] . '" height="20%" width="20%">';
+						$todo = $todo . '<img src="' . $fila['direccionImagen'] . '" alt="' . $fila['titulo'] . '" height="50%" width="50%">';
 
 						$todo = $todo . '<p class="card-description">' . $fila['descripcion'] . '</p>';
 
-						$todo = $todo . "<a href='../php/annadirAmigo.php?identificadorAmigo=" . $fila['idUsuario'] . "' style='color:red;'><i class='fas fa-user-plus'></i></i></a>";//No like
+						$todo = $todo . "<a href='../php/annadirAmigo.php?identificadorAmigo=" . $usuarioLogueado . "' style='color:red;'><i class='fas fa-user-plus'></i></i></a>";//No like
 						$todo = $todo . "<a href='#' style='color:red;'><i class='far fa-thumbs-up'></i></a>";
 
 						// $todo = $todo . "<a href='#' style='color:red;'><i class='fas fa-thumbs-up'></i></a>";//Like

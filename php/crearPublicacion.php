@@ -43,7 +43,7 @@
 		$identificador = (int)$_SESSION['id'];
 		// $result = $objeto->consultar("SELECT * FROM usuario");
 
-		$result = $objeto->insertar("insert into publicacion (idUsuario,titulo,visibilidad,descripcion,fecha,direccionImagen) values 
+		$result = $objeto->insertar("insert into publicacion (idUsuarioPublicacion,titulo,visibilidad,descripcion,fecha,direccionImagen) values 
 			(". $identificador . ", '" . $titulo . "', " . $visibilidad . ", '" . $descripcion . "', sysdate(), '" . $direccionImagen . "')");
 		if ($result)
 		{

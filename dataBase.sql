@@ -27,23 +27,70 @@ create table amigos
     foreign key Amigo2 (idAmigo2) references usuario(idUsuario)
 );
 
+select * from amigos;
+select * from usuario;
+select * from publicacion;
+delete from publicacion where idPublicacion=8 or idPublicacion=9;
+
 /*insert into amigos (idAmigo1, idAmigo2) values (1,2);
+insert into amigos (idAmigo1, idAmigo2) values (2,3);
 select * from amigos
-delete from amigos where idAmigos = 2;*/
+delete from amigos where idAmigos = 8;*/
+
+select * from publicacion as p
+inner join amigos as a on a.idAmigo1=p.idUsuario or a.idAmigo2=p.idUsuario/*Se obtiene si es del amigo 1 o amigo 2*/
+where a.idAmigo1=2 or a.idAmigo2=2;/*el número va a ser el id del usuario que está loggeado*/
 
 
+SELECT * FROM publicacion as p
+ inner join amigos as a on a.idAmigo1=p.idUsuario or a.idAmigo2=p.idUsuario
+ inner join usuario as u on p.idUsuario = u.idUsuario 
+ where a.idAmigo1=1 or a.idAmigo2=1
+ order by p.idPublicacion desc;
+/*
+delete from amigos where idAmigo2=1*/
+select * from publicacion  as p
+inner join amigos as a on a.idAmigo1=p.idUsuario or a.idAmigo2=p.idUsuario
+where visibilidad=0;
 
+
+-- Consulta correcta Primera consulta va a ser todas las que son de los amigos
+ SELECT idPublicacion, idUsuarioPublicacion, titulo,
+ visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 1 as amigo
+ FROM publicacion as p
+ inner join amigos as a on a.idAmigo1=p.idUsuarioPublicacion or a.idAmigo2=p.idUsuarioPublicacion
+ inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario 
+ where (a.idAmigo1=1 or a.idAmigo2=1) and idUsuarioPublicacion <>1 and visibilidad = 1
+ 
+ union
+ 
+ select idPublicacion, idUsuarioPublicacion, titulo,
+ visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 0 as amigo
+ from publicacion as p
+  inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario
+ where visibilidad = 0 or idUsuarioPublicacion=1
+ order by idPublicacion desc;
+ 
+ select * from amigos;
+  
+ -- Fin de consulta correcta.
+ 
+
+select * from publicacion;
+update publicacion set idUsuario=3 where idPublicacion=11;
+/*update publicacion set visibilidad=0 where idPublicacion = 8 or idPublicacion = 11;*/
 create table publicacion
 (
 	idPublicacion int primary key auto_increment,
     idUsuario int,
     titulo varchar(100),
-    visibilidad int,
+    visibilidad int,-- Privada 1, publica 0.
     descripcion varchar(2048),
     fecha datetime,
     direccionImagen varchar(200),
     foreign key publicacionDeUsuario (idUsuario) references usuario(idUsuario)
 );
+alter table publicacion change idUsuario idUsuarioPublicacion int;
 /*delete from publicacion where idPublicacion = 2;*/
 /*insert into publicacion (idUsuario,titulo,visibilidad,descripcion,fecha,direccionImagen) values
 (1,'Primera publicacion',1,'Descripcion de la primera publicacion', sysdate(),'../publicaciones/images/publicacion1-1.jpeg');
