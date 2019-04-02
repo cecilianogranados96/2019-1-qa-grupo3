@@ -38,8 +38,6 @@
         
         public function insertar($sql)
         {
-
-            return $this->link->query($sql);
             // $datos_bd = "host=$this->host port=5432 dbname=$this->bd user=$this->usuario password=$this->password";
             // $link = pg_connect($datos_bd);
             // $this->link = $link;
