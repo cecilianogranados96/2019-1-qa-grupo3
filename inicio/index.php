@@ -74,21 +74,21 @@ if(!isset($_SESSION['usuario']))
 					$usuarioLogueado = (int)$_SESSION['id'];
 					$consulta = "SELECT * FROM publicacion as p inner join amigos as a on a.idAmigo1=p.idUsuario or a.idAmigo2=p.idUsuario inner join usuario as u on p.idUsuario = u.idUsuario where a.idAmigo1=". $usuarioLogueado . " or a.idAmigo2=". $usuarioLogueado ." or p.visibilidad=0  order by p.idPublicacion desc;";
 					
-					$consulta = "SELECT idPublicacion, idUsuarioPublicacion, titulo,
-						 visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario,, 1 as amigo
-						 FROM publicacion as p
-						 inner join amigos as a on a.idAmigo1=p.idUsuarioPublicacion or a.idAmigo2=p.idUsuarioPublicacion
-						 inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario 
-						 where a.idAmigo1=" . $usuarioLogueado . " or a.idAmigo2=" . $usuarioLogueado ."
-						 
-						 union
-						 
-						 select idPublicacion, idUsuarioPublicacion, titulo,
-						 visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 0 as amigo
-						 from publicacion as p
-						  inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario
-						 where visibilidad = 0 or idUsuarioPublicacion=" . $usuarioLogueado . "
-						  order by idPublicacion desc;";
+					$consulta = " SELECT idPublicacion, idUsuarioPublicacion, titulo,
+					 visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 1 as amigo
+					 FROM publicacion as p
+					 inner join amigos as a on a.idAmigo1=p.idUsuarioPublicacion or a.idAmigo2=p.idUsuarioPublicacion
+					 inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario 
+					 where (a.idAmigo1=" . $usuarioLogueado . " or a.idAmigo2=" . $usuarioLogueado . ") and idUsuarioPublicacion <>" . $usuarioLogueado . " and visibilidad = 1
+					 
+					 union
+					 
+					 select idPublicacion, idUsuarioPublicacion, titulo,
+					 visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 0 as amigo
+					 from publicacion as p
+					  inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario
+					 where visibilidad = 0 or idUsuarioPublicacion= " . $usuarioLogueado . "
+					 order by idPublicacion desc;";
 
 					//echo $consulta;
 					//$consulta = "SELECT * FROM publicacion as p inner join usuario as u on p.idUsuario = u.idUsuario order by p.idPublicacion desc";
@@ -112,8 +112,11 @@ if(!isset($_SESSION['usuario']))
 						$todo = $todo . '<img src="' . $fila['direccionImagen'] . '" alt="' . $fila['titulo'] . '" height="50%" width="50%">';
 
 						$todo = $todo . '<p class="card-description">' . $fila['descripcion'] . '</p>';
-
-						$todo = $todo . "<a href='../php/annadirAmigo.php?identificadorAmigo=" . $usuarioLogueado . "' style='color:red;'><i class='fas fa-user-plus'></i></i></a>";//No like
+						if ((int)$fila['amigo'] == 0 and (int)$fila['idUsuarioPublicacion'] != $usuarioLogueado)
+						{
+							$todo = $todo . "<a href='../php/annadirAmigo.php?identificadorAmigo=" . $usuarioLogueado . "' style='color:red;'><i class='fas fa-user-plus'></i></i></a>";//No like
+						}
+						
 						$todo = $todo . "<a href='#' style='color:red;'><i class='far fa-thumbs-up'></i></a>";
 
 						// $todo = $todo . "<a href='#' style='color:red;'><i class='fas fa-thumbs-up'></i></a>";//Like

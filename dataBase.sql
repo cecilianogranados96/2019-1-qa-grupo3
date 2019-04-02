@@ -72,7 +72,7 @@ where visibilidad=0;
  order by idPublicacion desc;
  
  select * from amigos;
-  
+-- Prueba de comentario
  -- Fin de consulta correcta.
  
 
