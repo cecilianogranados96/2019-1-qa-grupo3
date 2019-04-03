@@ -39,6 +39,7 @@
 		$titulo = $_POST['titulo'];
 		$visibilidad = 1;
 		$descripcion = $_POST['descripcion'];
+		$visibilidad = (int)$_POST['visibilidad']; 
 		$direccionImagen = "../publicaciones/images/" . $nombre;
 		$identificador = (int)$_SESSION['id'];
 		// $result = $objeto->consultar("SELECT * FROM usuario");
