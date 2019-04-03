@@ -54,23 +54,25 @@ inner join amigos as a on a.idAmigo1=p.idUsuario or a.idAmigo2=p.idUsuario
 where visibilidad=0;
 
 
--- Consulta correcta
+-- Consulta correcta Primera consulta va a ser todas las que son de los amigos
  SELECT idPublicacion, idUsuarioPublicacion, titulo,
- visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario
+ visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 1 as amigo
  FROM publicacion as p
  inner join amigos as a on a.idAmigo1=p.idUsuarioPublicacion or a.idAmigo2=p.idUsuarioPublicacion
  inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario 
- where a.idAmigo1=1 or a.idAmigo2=1
+ where (a.idAmigo1=1 or a.idAmigo2=1) and idUsuarioPublicacion <>1 and visibilidad = 1
  
  union
  
  select idPublicacion, idUsuarioPublicacion, titulo,
- visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario
+ visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 0 as amigo
  from publicacion as p
   inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario
  where visibilidad = 0 or idUsuarioPublicacion=1
  order by idPublicacion desc;
-  
+ 
+ select * from amigos;
+-- Prueba de comentario
  -- Fin de consulta correcta.
  
 
@@ -105,3 +107,24 @@ create table likes
     foreign key idPublicacionLike (idPublicacion) references publicacion(idPublicacion),
     foreign key idUsuarioDioLike (idUsuarioLike) references usuario(idUsuario)
 );
+
+select * from usuario;
+select * from amigos;
+
+
+select idPublicacion, idUsuarioPublicacion, titulo,
+					 visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 0 as amigo
+					 from publicacion as p
+					  inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario
+					 where visibilidad = 0 or idUsuarioPublicacion= 1
+					 
+                     union
+
+SELECT idPublicacion, idUsuarioPublicacion, titulo,
+					 visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 1 as amigo
+					 FROM publicacion as p
+					 inner join amigos as a on a.idAmigo1=p.idUsuarioPublicacion or a.idAmigo2=p.idUsuarioPublicacion
+					 inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario 
+					 where (a.idAmigo1=1 or a.idAmigo2=1) and idUsuarioPublicacion <>1 and visibilidad = 1
+					 order by idPublicacion desc;
+					 
