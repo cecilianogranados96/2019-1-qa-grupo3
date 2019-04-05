@@ -74,12 +74,12 @@ if(!isset($_SESSION['usuario']))
 					$usuarioLogueado = (int)$_SESSION['id'];
 					$consulta = "SELECT * FROM publicacion as p inner join amigos as a on a.idAmigo1=p.idUsuario or a.idAmigo2=p.idUsuario inner join usuario as u on p.idUsuario = u.idUsuario where a.idAmigo1=". $usuarioLogueado . " or a.idAmigo2=". $usuarioLogueado ." or p.visibilidad=0  order by p.idPublicacion desc;";
 					
-					$consulta = " SELECT idPublicacion, idUsuarioPublicacion, titulo,
+					$consulta = "  SELECT idPublicacion, idUsuarioPublicacion, titulo,
 					 visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 1 as amigo
 					 FROM publicacion as p
 					 inner join amigos as a on a.idAmigo1=p.idUsuarioPublicacion or a.idAmigo2=p.idUsuarioPublicacion
 					 inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario 
-					 where (a.idAmigo1=" . $usuarioLogueado . " or a.idAmigo2=" . $usuarioLogueado . ") and idUsuarioPublicacion <>" . $usuarioLogueado . " and visibilidad = 1
+					 where (a.idAmigo1=" . $usuarioLogueado . " or a.idAmigo2=" . $usuarioLogueado . ") and idUsuarioPublicacion <>" . $usuarioLogueado . "
 					 
 					 union
 					 
@@ -88,7 +88,7 @@ if(!isset($_SESSION['usuario']))
 					 from publicacion as p
 					  inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario
 					 where visibilidad = 0 or idUsuarioPublicacion= " . $usuarioLogueado . "
-					 order by idPublicacion desc;";
+					 order by idPublicacion desc, visibilidad asc;";
 
 					//echo $consulta;
 					//$consulta = "SELECT * FROM publicacion as p inner join usuario as u on p.idUsuario = u.idUsuario order by p.idPublicacion desc";
@@ -96,32 +96,66 @@ if(!isset($_SESSION['usuario']))
 					// $todo = "";
 					// $objeto = 0;
 					$flag = True;
+					$anterior = 0;
 					while (($fila = mysqli_fetch_array($result)) and $flag )
 					{
-						$todo = $todo . '<div class="my-2 mx-auto p-relative bg-white shadow-1" style="width: 100%; overflow: hidden; border-radius: 1px;">';
-						// $idAnnadir = 4;
-
-						// if(!((int)$fila['idAmigo1'] == $usuarioLogueado))
-						// {
-						// 	$usuarioLogueado = (int)$fila['idAmigo1'];
-						// }
-						
-						$todo = $todo . $fila['nombreUsuario'] . " " . $fila['apellidoUsuario'] . " - " . $fila['fecha'] . " Visibilidad: " . $fila['visibilidad'];// . " ID: " . $usuarioLogueado;
-						$todo = $todo . '<h4 class="card-title">' . $fila['titulo'] . '</h4>';
-						//$todo = $todo . $fila['direccionImagen'] ;
-						$todo = $todo . '<img src="' . $fila['direccionImagen'] . '" alt="' . $fila['titulo'] . '" height="50%" width="50%">';
-
-						$todo = $todo . '<p class="card-description">' . $fila['descripcion'] . '</p>';
-						if ((int)$fila['amigo'] == 0 and (int)$fila['idUsuarioPublicacion'] != $usuarioLogueado)
+						if (($anterior != $fila['idUsuario']) or ($anterior==0))
 						{
-							$todo = $todo . "<a href='../php/annadirAmigo.php?identificadorAmigo=" . $usuarioLogueado . "' style='color:red;'><i class='fas fa-user-plus'></i></i></a>";//No like
+
+
+
+							
+							
+								
+							
+
+
+
+
+
+							$todo = $todo . '<div class="my-2 mx-auto p-relative bg-white shadow-1" style="width: 100%; overflow: hidden; border-radius: 1px;">';
+							// $idAnnadir = 4;
+
+							// if(!((int)$fila['idAmigo1'] == $usuarioLogueado))
+							// {
+							// 	$usuarioLogueado = (int)$fila['idAmigo1'];
+							// }
+							
+							$todo = $todo . $fila['nombreUsuario'] . " " . $fila['apellidoUsuario'] . " - " . $fila['fecha'] . " Visibilidad: " . $fila['visibilidad'];// . " ID: " . $usuarioLogueado;
+							$todo = $todo . '<h4 class="card-title">' . $fila['titulo'] . '</h4>';
+							//$todo = $todo . $fila['direccionImagen'] ;
+							$todo = $todo . '<img src="' . $fila['direccionImagen'] . '" alt="' . $fila['titulo'] . '" height="50%" width="50%">';
+
+							$todo = $todo . '<p class="card-description">' . $fila['descripcion'] . '</p>';
+							if ((int)$fila['amigo'] == 0 and (int)$fila['idUsuarioPublicacion'] != $usuarioLogueado)
+							{
+								$todo = $todo . "<a href='../php/annadirAmigo.php?identificadorAmigo=" . $usuarioLogueado . "' style='color:red;'><i class='fas fa-user-plus'></i></i></a>";//No like
+							}
+
+							$script = "select * from likes where idPublicacion=" . (int)$fila['idPublicacion'] . " and idUsuarioLike=" . (int)$_SESSION['id'] . ";";
+							//echo $script . "</br>";
+							$resultado = $objeto->consultar($script);
+							$contadorVer = 0;
+							while ($fila2 = mysqli_fetch_array($resultado))
+							{
+								$contadorVer = 1;
+							}
+							if($contadorVer == 0)
+							{
+								$todo = $todo . "<a href='../php/meGusta.php?idPublicacion=" . (int)$fila['idPublicacion'] . "' style='color:red;'><i class='far fa-thumbs-up'></i></a>";
+							}
+							else
+							{
+								$todo = $todo . "<a href='../php/noMeGusta.php?idPublicacion=" . (int)$fila['idPublicacion'] . "' style='color:red;'><i class='far fa-thumbs-down'></i></a>"; 
+							}
+							
+							
+
+							$todo = $todo . "</br><a href='verGusta.php?idPublicacion=" . (int)$fila['idPublicacion'] .  "' style='color:red;'>Ver me gusta</a>";//Like
+							$todo = $todo . "";
+							$todo = $todo . '</div>';
+							$anterior = (int)$fila['idUsuario'];
 						}
-						
-						$todo = $todo . "<a href='#' style='color:red;'><i class='far fa-thumbs-up'></i></a>";
-
-						// $todo = $todo . "<a href='#' style='color:red;'><i class='fas fa-thumbs-up'></i></a>";//Like
-
-						$todo = $todo . '</div>';
 
 					// 	if ($fila['direccionUsuario'] == $usuario)
 					// 	{

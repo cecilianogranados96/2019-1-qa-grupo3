@@ -110,21 +110,42 @@ create table likes
 
 select * from usuario;
 select * from amigos;
+select * from publicacion;
+select * from likes;
+select * from likes inner join usuario on idUsuario=idUsuarioLike where idUsuarioLike=11;
+
+insert into likes (idPublicacion, idUsuarioLike) values (11,1),(11,2),(11,3);
+select * from likes where idPublicacion=2 and idUsuarioLike=1;
+select * from likes where idPublicacion=3 and idUsuarioLike=1;
+select * from likes where idPublicacion=1 and idUsuarioLike=1;
+/*insert into likes (idPublicacion, idUsuarioLike) values (1,2);
+insert into likes (idPublicacion, idUsuarioLike) values (2,3);
+insert into likes (idPublicacion, idUsuarioLike) values (3,1);*/
+
+delete from likes where idPublicacion=1 or idPublicacion=2 or idPublicacion=3 or idPublicacion=4;
 
 
-select idPublicacion, idUsuarioPublicacion, titulo,
-					 visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 0 as amigo
-					 from publicacion as p
-					  inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario
-					 where visibilidad = 0 or idUsuarioPublicacion= 1
-					 
-                     union
 
+
+
+-- Cuando son amigos
 SELECT idPublicacion, idUsuarioPublicacion, titulo,
 					 visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 1 as amigo
 					 FROM publicacion as p
 					 inner join amigos as a on a.idAmigo1=p.idUsuarioPublicacion or a.idAmigo2=p.idUsuarioPublicacion
 					 inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario 
-					 where (a.idAmigo1=1 or a.idAmigo2=1) and idUsuarioPublicacion <>1 and visibilidad = 1
-					 order by idPublicacion desc;
+					 where (a.idAmigo1=1 or a.idAmigo2=1) and idUsuarioPublicacion <>1 -- and visibilidad = 1
+					 
+union
+
+-- Saca lo que es publico y de cualquier persona
+select idPublicacion, idUsuarioPublicacion, titulo,
+					 visibilidad, descripcion, fecha, direccionImagen, idUsuario, nombreUsuario, apellidoUsuario, 0 as amigo
+					 from publicacion as p
+					  inner join usuario as u on p.idUsuarioPublicacion = u.idUsuario
+					 where (visibilidad = 0 or idUsuarioPublicacion= 1)
+                     
+                     order by idPublicacion desc, visibilidad asc;
+					 
+                     
 					 
