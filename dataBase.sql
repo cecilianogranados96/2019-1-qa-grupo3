@@ -11,9 +11,11 @@ create table usuario(
     contrasennaUsuario varchar(256),
     fechaNacimiento date
 );
+select * from usuario order by idUsuario limit 1;
 insert into usuario (nombreUsuario, apellidoUsuario, direccionUsuario, contrasennaUsuario, fechaNacimiento)
  values ('Jose','Jimenez','jimenezjm28j','123','1996-11-28');
 
+select * from usuario;
 insert into usuario (nombreUsuario, apellidoUsuario, direccionUsuario, contrasennaUsuario, fechaNacimiento)
  values ('Luis','Aguilar','felipe','123','1996-11-28');
  
