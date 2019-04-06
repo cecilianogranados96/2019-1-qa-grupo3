@@ -14,52 +14,66 @@ if(!isset($_SESSION['usuario']))
 		<title>Añadir Usuario</title>
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		  <!-- Font Awesome -->
+		  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+		  <!-- Ionicons -->
+		  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+		  <!-- Theme style -->
+		  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+		  <!-- iCheck -->
+		  <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
         <link href="https://fonts.googleapis.com/css?family=Coiny" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	</head>
-	<body>
-		<div class="row pt-5">
+	<body class="hold-transition login-page" >
+
+		<div class="row pt-5" >
 		</div>
 		<div class="row">
 			<div class="col-2"></div>
 			<!-- <div class="col-8"> -->
 			
-			
+		
 
 
 			<!-- Historias -->
-			<div class="col-8">
-				<form action="../php/cerrarSesion.php" method="post" class="width:100%;">
+			<div  class="col-8 " class="login-box" >
+
+				<form action="../php/cerrarSesion.php" method="post" class="width:100%;" >
 					<div class="form-group row">
 						<!-- <label for="flname" class="col-sm-12 col-form-label labels">Usuario</label> -->
-						<input type="submit" name="boton" value="Cerrar Sesion" class="form-control">
+						<input type="submit" name="boton" value="Cerrar Sesion" class="btn btn-primary btn-block btn-flat">
 					</div>
 				</form>
 				
 				<form action="../php/crearPublicacion.php" method="post" class="width:100%;" enctype="multipart/form-data">
 					<div class="form-group row">
-						<label for="flname" class="col-sm-12 col-form-label labels">Titulo</label>
+						
+						<p class="login-box-msg">Titulo</p>
 						<input type="text" name="titulo" value="" class="form-control" placeholder="Título...">
 					</div>
 
 					<div class="form-group row">
-						<label for="flname" class="col-sm-12 col-form-label labels">Descripción</label>
+						<p class="login-box-msg">Descripción</p>
 						<textarea type="text" name="descripcion" value="" class="form-control" placeholder="Descripcion..."></textarea>
 					</div>
 
 					<div class="form-group row">
-						<label for="flname" class="col-sm-12 col-form-label labels">Subir Imagen</label>
-						<input type="file" name="archivo" id="archivo"></input>
+						<p class="login-box-msg">Subir Imagen</p>
+						<br>
+						<input type="file" name="archivo" id="archivo" class="btn btn-primary btn-block btn-flat"></input>
 					</div>
 
 					<select name="visibilidad" class="">
-						<option value="1">Pública</option>
-						<option value="0">Privada</option>
+						<option value="1">Privada</option>
+						<option value="0">Pública</option>
 					</select>
 
 					<div class="form-group row">
 						<!-- <label for="flname" class="col-sm-12 col-form-label labels">Usuario</label> -->
-						<input type="submit" name="boton" value="Crear" class="form-control">
+						<input type="submit" name="boton" value="Crear" class="btn btn-primary btn-block btn-flat">
+
 					</div>
 
 				</form>
@@ -129,7 +143,7 @@ if(!isset($_SESSION['usuario']))
 							$todo = $todo . '<p class="card-description">' . $fila['descripcion'] . '</p>';
 							if ((int)$fila['amigo'] == 0 and (int)$fila['idUsuarioPublicacion'] != $usuarioLogueado)
 							{
-								$todo = $todo . "<a href='../php/annadirAmigo.php?identificadorAmigo=" . $usuarioLogueado . "' style='color:red;'><i class='fas fa-user-plus'></i></i></a>";//No like
+								$todo = $todo . "<a href='../php/annadirAmigo.php?identificadorAmigo=" . $usuarioLogueado . "' style='color:blue;'><i class='fas fa-user-plus'></i></i></a>";//No like
 							}
 
 							$script = "select * from likes where idPublicacion=" . (int)$fila['idPublicacion'] . " and idUsuarioLike=" . (int)$_SESSION['id'] . ";";
@@ -142,16 +156,16 @@ if(!isset($_SESSION['usuario']))
 							}
 							if($contadorVer == 0)
 							{
-								$todo = $todo . "<a href='../php/meGusta.php?idPublicacion=" . (int)$fila['idPublicacion'] . "' style='color:red;'><i class='far fa-thumbs-up'></i></a>";
+								$todo = $todo . "<a href='../php/meGusta.php?idPublicacion=" . (int)$fila['idPublicacion'] . "' style='color:blue;'><i class='far fa-thumbs-up'></i></a>";
 							}
 							else
 							{
-								$todo = $todo . "<a href='../php/noMeGusta.php?idPublicacion=" . (int)$fila['idPublicacion'] . "' style='color:red;'><i class='far fa-thumbs-down'></i></a>"; 
+								$todo = $todo . "<a href='../php/noMeGusta.php?idPublicacion=" . (int)$fila['idPublicacion'] . "' style='color:blue;'><i class='far fa-thumbs-down'></i></a>"; 
 							}
 							
 							
-
-							$todo = $todo . "</br><a href='verGusta.php?idPublicacion=" . (int)$fila['idPublicacion'] .  "' style='color:red;'>Ver me gusta</a>";//Like
+							
+							$todo = $todo . "</br><a href='verGusta.php?idPublicacion=" . (int)$fila['idPublicacion'] .  "' style='color:blue;'>Ver me gusta</a>";//Like
 							$todo = $todo . "";
 							$todo = $todo . '</div>';
 							$anterior = (int)$fila['idUsuario'];
@@ -179,7 +193,7 @@ if(!isset($_SESSION['usuario']))
 		</div>
 		<?php
 			// session_start();
-			echo "Usuario: " . $_SESSION['usuario'] . "</br>ID: " . $_SESSION['id'] . "</br>";
+			
 		?>
     	<script src="../js/script.js"/>
 	</body>

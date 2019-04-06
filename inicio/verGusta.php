@@ -1,6 +1,6 @@
 <?php
 session_start();
-// include 'lib/config.php';
+
 
 if(!isset($_SESSION['usuario']))
 {
@@ -84,12 +84,12 @@ if(!isset($_SESSION['usuario']))
 
 
 
-			<!-- </div> -->
+
 			<div class="col-2"></div>
 		</div>
 		<?php
-			// session_start();
-			echo "Usuario: " . $_SESSION['usuario'] . "</br>ID: " . $_SESSION['id'] . "</br>";
+
+
 		?>
     	<script src="../js/script.js"/>
 	</body>
