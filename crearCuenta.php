@@ -107,49 +107,57 @@ if(isset($_SESSION['usuario']))
 						
 						if ($flag)
 						{
-							$consulta = "insert into usuario (nombreUsuario, apellidoUsuario, direccionUsuario, contrasennaUsuario, fechaNacimiento)
- 							values ('" . $nombre . "', '" . $apellido . "', '" . $usuario . "', '" . $contrasenna . "', '" . $nacimiento . "');";
+							if($nombre!="" and $apellido!="" and $usuario!="" and $contrasenna!="" and $nacimiento!="")
+							{
+								$consulta = "insert into usuario (nombreUsuario, apellidoUsuario, direccionUsuario, contrasennaUsuario, fechaNacimiento)
+	 							values ('" . $nombre . "', '" . $apellido . "', '" . $usuario . "', '" . $contrasenna . "', '" . $nacimiento . "');";
 
- 							$resultado = $obje->insertar($consulta);
- 							if ($resultado)
- 							{
- 								$consulta = "select * from usuario order by idUsuario desc limit 1;";
- 								$result = $obje->consultar($consulta);
- 								$id = 0;
- 								while (($fila = mysqli_fetch_array($result)))
-								{
-									$id = $fila['idUsuario'];
-								}
- 								$_SESSION['usuario'] = $usuario;
-							 	$_SESSION['id'] = $id;
- 								header('Location: ./');
+	 							$resultado = $obje->insertar($consulta);
+	 							if ($resultado)
+	 							{
+	 								$consulta = "select * from usuario order by idUsuario desc limit 1;";
+	 								$result = $obje->consultar($consulta);
+	 								$id = 0;
+	 								while (($fila = mysqli_fetch_array($result)))
+									{
+										$id = $fila['idUsuario'];
+									}
+	 								$_SESSION['usuario'] = $usuario;
+								 	$_SESSION['id'] = $id;
+	 								header('Location: ./');
+	 							}
+	 							else
+	 							{
+	 								echo $consulta . "</br>";
+	 								echo $obje->link->error;;
+	 							}
+								//No encuentra, por lo que si se puede
+								// if ($objeto['contrasennaUsuario'] == $contrasenna)
+								// {
+								// 	$_SESSION['usuario'] = $objeto['nombreUsuario'];
+								// 	$_SESSION['id'] = $objeto['idUsuario'];
+									
+								
+								// }
+								// else
+								// {
+								// 	echo "Contraseña incorrecta";
+								// }
+
  							}
  							else
- 							{
- 								echo $consulta . "</br>";
- 								echo $obje->link->error;;
- 							}
-							//No encuentra, por lo que si se puede
-							// if ($objeto['contrasennaUsuario'] == $contrasenna)
-							// {
-							// 	$_SESSION['usuario'] = $objeto['nombreUsuario'];
-							// 	$_SESSION['id'] = $objeto['idUsuario'];
-								
-							
-							// }
-							// else
-							// {
-							// 	echo "Contraseña incorrecta";
-							// }
+							{
+								echo "<p style='color:red;'>Información incompleta</p>";
+							}
 						}
 						else
 						{
-							echo "Usuario Ya existe";
+							echo "<p style='color:red;'>Usuario Ya existe</p>";
 						}
 					}
 					else
 					{
-						echo "Contraseñas no son iguales";
+						echo "<p style='color:red;'>Contraseñas no son iguales</p>";
 					}
 				}
 			?>

@@ -43,18 +43,25 @@
 		$direccionImagen = "../publicaciones/images/" . $nombre;
 		$identificador = (int)$_SESSION['id'];
 		// $result = $objeto->consultar("SELECT * FROM usuario");
-
-		$result = $objeto->insertar("insert into publicacion (idUsuarioPublicacion,titulo,visibilidad,descripcion,fecha,direccionImagen) values 
-			(". $identificador . ", '" . $titulo . "', " . $visibilidad . ", '" . $descripcion . "', sysdate(), '" . $direccionImagen . "')");
-		if ($result)
+		if ($titulo!="" or $descripcion!="" or $direccionImagen!="")
 		{
-			echo "LISTO";
-			header("Location: ../inicio");
+			$result = $objeto->insertar("insert into publicacion (idUsuarioPublicacion,titulo,visibilidad,descripcion,fecha,direccionImagen) values 
+				(". $identificador . ", '" . $titulo . "', " . $visibilidad . ", '" . $descripcion . "', sysdate(), '" . $direccionImagen . "')");
+			if ($result)
+			{
+				echo "LISTO";
+				header("Location: ../inicio");
+			}
+			else
+			{
+				echo $objeto->link->error;
+			}
 		}
 		else
 		{
-			echo $objeto->link->error;
+			echo "Error, la información no es correcta";
 		}
+
 
 		
 		// $todo = "";
