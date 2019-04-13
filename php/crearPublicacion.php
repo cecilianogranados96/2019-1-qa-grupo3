@@ -31,7 +31,7 @@
 
 
 
-		move_uploaded_file($_FILES['archivo']['tmp_name'],"../publicaciones/images/" . $nombre);//<em id="__mceDel"> </em>;
+		move_uploaded_file($_FILES['archivo']['tmp_name'],"../images/publicaciones/" . $nombre);//<em id="__mceDel"> </em>;
 
 		include("dataBase.php");
 		$objeto = new dataBase();
@@ -40,7 +40,7 @@
 		$visibilidad = 1;
 		$descripcion = $_POST['descripcion'];
 		$visibilidad = (int)$_POST['visibilidad']; 
-		$direccionImagen = "../publicaciones/images/" . $nombre;
+		$direccionImagen = "../images/publicaciones/" . $nombre;
 		$identificador = (int)$_SESSION['id'];
 		// $result = $objeto->consultar("SELECT * FROM usuario");
 		if ($titulo!="" or $descripcion!="" or $direccionImagen!="")

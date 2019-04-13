@@ -46,8 +46,13 @@ if(!isset($_SESSION['usuario']))
 						<input type="submit" name="boton" value="Cerrar Sesion" class="btn btn-primary btn-block btn-flat">
 					</div>
 				</form>
+				<?php
+					// echo $_SESSION['imagen'];
+					echo '<img src="' . $_SESSION['imagen'] . '" alt="" width="8%">';
+				?>
 				
 				<form action="../php/crearPublicacion.php" method="post" class="width:100%;" enctype="multipart/form-data">
+					
 					<div class="form-group row">
 						
 						<p class="login-box-msg">Titulo</p>
@@ -166,6 +171,7 @@ if(!isset($_SESSION['usuario']))
 							
 							
 							$todo = $todo . "</br><a href='verGusta.php?idPublicacion=" . (int)$fila['idPublicacion'] .  "' style='color:blue;'>Ver me gusta</a>";//Like
+							$todo = $todo . "</br><a href='verComentarios.php?idPublicacion=" . (int)$fila['idPublicacion'] .  "' style='color:blue;'>Comentarios</a>";
 							$todo = $todo . "";
 							$todo = $todo . '</div>';
 							$anterior = (int)$fila['idUsuario'];

@@ -35,7 +35,7 @@ if(isset($_SESSION['usuario']))
 		<div class="login-box">
 			<div class="col-2"></div>
 			<div class="col-8">
-			<form action="" method="post">
+			<form action="php/crearUsuario.php" method="post" enctype="multipart/form-data">
 			<div class="login-logo">
 			<a href=""><b>Registro</b></a>
 			</div>
@@ -58,6 +58,11 @@ if(isset($_SESSION['usuario']))
 					<!-- <label for="flname" class="col-sm-12 col-form-label labels">Usuario</label> -->
 					<input type="text" name="usuario" class="form-control" placeholder="Usuario">
 				</div>
+				<div class="form-group row">
+					<!-- <p class="login-box-msg">Subir Imagen</p> -->
+					<!-- <br> -->
+					<input type="file" name="imagen" id="imagen" class="btn btn-primary btn-block btn-flat"></input>
+				</div>
 
 				<div class="form-group row">
 					<!-- <label for="flname" class="col-sm-12 col-form-label labels">Usuario</label> -->
@@ -74,93 +79,7 @@ if(isset($_SESSION['usuario']))
 				</div>
 			</form>
 			<!-- <a href="crearCuenta.php">Crear cuenta</a> -->
-			<?php
-				if(isset($_POST['boton']))
-				{
-					// echo "LISTO";
-					// session_start();
-					include("php/dataBase.php");
-					$nombre = $_POST['nombre'];
-					$apellido = $_POST['apellido'];
-					$nacimiento = $_POST['nacimiento'];
-					$usuario = $_POST['usuario'];
-					$contrasenna = $_POST['contrasenna'];
-					$contrasenna2 = $_POST['contrasenna2'];
-					// echo $usuario . " - " . $contrasenna;
-					if($contrasenna == $contrasenna2)
-					{
-						$objeto = new dataBase();
-						$obje = $objeto;
-						$result = $objeto->consultar("SELECT * FROM usuario");
-						$todo = "";
-						$objeto = 0;
-						$flag = True;
-						while (($fila = mysqli_fetch_array($result)) and $flag )
-						{
-							$todo = $todo . ", " . $fila['nombreUsuario'];
-							if ($fila['direccionUsuario'] == $usuario)
-							{
-								$objeto = $fila;
-								$flag = False;
-							}
-						}
-						
-						if ($flag)
-						{
-							if($nombre!="" and $apellido!="" and $usuario!="" and $contrasenna!="" and $nacimiento!="")
-							{
-								$consulta = "insert into usuario (nombreUsuario, apellidoUsuario, direccionUsuario, contrasennaUsuario, fechaNacimiento)
-	 							values ('" . $nombre . "', '" . $apellido . "', '" . $usuario . "', '" . $contrasenna . "', '" . $nacimiento . "');";
-
-	 							$resultado = $obje->insertar($consulta);
-	 							if ($resultado)
-	 							{
-	 								$consulta = "select * from usuario order by idUsuario desc limit 1;";
-	 								$result = $obje->consultar($consulta);
-	 								$id = 0;
-	 								while (($fila = mysqli_fetch_array($result)))
-									{
-										$id = $fila['idUsuario'];
-									}
-	 								$_SESSION['usuario'] = $usuario;
-								 	$_SESSION['id'] = $id;
-	 								header('Location: ./');
-	 							}
-	 							else
-	 							{
-	 								echo $consulta . "</br>";
-	 								echo $obje->link->error;;
-	 							}
-								//No encuentra, por lo que si se puede
-								// if ($objeto['contrasennaUsuario'] == $contrasenna)
-								// {
-								// 	$_SESSION['usuario'] = $objeto['nombreUsuario'];
-								// 	$_SESSION['id'] = $objeto['idUsuario'];
-									
-								
-								// }
-								// else
-								// {
-								// 	echo "Contraseña incorrecta";
-								// }
-
- 							}
- 							else
-							{
-								echo "<p style='color:red;'>Información incompleta</p>";
-							}
-						}
-						else
-						{
-							echo "<p style='color:red;'>Usuario Ya existe</p>";
-						}
-					}
-					else
-					{
-						echo "<p style='color:red;'>Contraseñas no son iguales</p>";
-					}
-				}
-			?>
+			
 			</div>
 			<div class="col-2"></div>
 

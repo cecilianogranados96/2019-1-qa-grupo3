@@ -88,6 +88,9 @@ if(isset($_SESSION['usuario']))
 						{
 							$_SESSION['usuario'] = $objeto['nombreUsuario'];
 							$_SESSION['id'] = $objeto['idUsuario'];
+							$_SESSION['imagen'] = $objeto['imagen'];
+							$_SESSION['nombre'] = $objeto['nombreUsuario'];
+							$_SESSION['apellido'] = $objeto['apellidoUsuario'];
 							// echo $objeto['nombreUsuario'] . "," . $objeto['apellidoUsuario'] . "," .  $objeto['direccionUsuario'] . "," .  $objeto['contrasennaUsuario'];
 							header('Location: inicio/');
 						}
