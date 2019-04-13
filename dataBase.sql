@@ -58,8 +58,7 @@ create table comentarios
 Alter table comentarios add column imagen varchar(512) after idPublicacionComentario;
 Alter table comentarios add column descripcion varchar(1024) after imagen;
 
-/* insert into comentarios (idUsuarioComentario, idPublicacionComentario,descripcion)
- values (1,2,'Probando un comentario x3'); */
+
 
 create table likeComentario
 (
@@ -69,11 +68,27 @@ create table likeComentario
     foreign key idPublicacionLike (idComentario) references comentarios(idComentario),
     foreign key idUsuarioDioLike (idUsuarioLike) references usuario(idUsuario)
 );
-select * from publicacion;
 
+create table comentarioComentario
+(
+	idComentarioComentario int primary key auto_increment,
+    idUsuarioComentario int,
+    idComentario int,
+    foreign key idcomentarioComentario (idComentario) references comentarios(idComentario),
+    foreign key idUsuarioComentario (idUsuarioComentario) references usuario(idUsuario)
+);
+Alter table comentarioComentario add column descripcionComentario varchar(1024) after idComentario;
+insert into comentarioComentario (idUsuarioComentario,idComentario, descripcionComentario) values (1,4,'ComentarioPrueba');
+select * from publicacion;
+-- delete from likeComentario where idComentario = 0 or idComentario=4;
+-- insert into likeComentario (idComentario,idUsuarioLike) values ();
+
+/* insert into comentarios (idUsuarioComentario, idPublicacionComentario,descripcion)
+ values (1,2,'Probando un comentario x3'); 
+select * from likeComentario;
 
 
 insert into usuario (nombreUsuario, apellidoUsuario, direccionUsuario, contrasennaUsuario, fechaNacimiento)
  values ('Jose','Jimenez','jimenezjm28j','123','1996-11-28');
 insert into usuario (nombreUsuario, apellidoUsuario, direccionUsuario, contrasennaUsuario, fechaNacimiento)
- values ('Luis','Aguilar','felipe','123','1996-11-28');
+ values ('Luis','Aguilar','felipe','123','1996-11-28');*/

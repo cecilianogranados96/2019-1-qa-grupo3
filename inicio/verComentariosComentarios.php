@@ -31,7 +31,7 @@ if(!isset($_SESSION['usuario']))
 			<div class="col-8">
 
 			<!-- <div class="my-2 mx-auto p-relative bg-white shadow-1" style="width: 100%; overflow: hidden; border-radius: 10px;">' -->
-				<form action="../php/crearComentario.php" method="post" class="width:100%;" enctype="multipart/form-data">
+				<form action="../php/crearComentarioComentario.php" method="post" class="width:100%;" enctype="multipart/form-data">
 
 
 					<div class="form-group row">
@@ -39,11 +39,11 @@ if(!isset($_SESSION['usuario']))
 						<textarea type="text" name="descripcion" value="" class="form-control" placeholder="Descripcion..."></textarea>
 					</div>
 
-					<div class="form-group row">
+					<!-- <div class="form-group row">
 						<p class="login-box-msg">Subir Imagen</p>
 						<br>
 						<input type="file" name="archivo" id="archivo" class="btn btn-primary btn-block btn-flat"></input>
-					</div>
+					</div> -->
 
 					
 
@@ -60,8 +60,8 @@ if(!isset($_SESSION['usuario']))
 			<!-- <a href="#">Comentar</a> -->
 
 				<?php
-					$idPublicacion = (int)$_GET['idPublicacion'];
-					$_SESSION['idPublicacion'] = $_GET['idPublicacion'];
+					$idComentario = (int)$_GET['idComentario'];
+					$_SESSION['idComentario'] = $_GET['idComentario'];
 					$todo = '';
 					// echo "idPublicacion: " . $idPublicacion . "</br>";
 					include("../php/dataBase.php");
@@ -70,7 +70,7 @@ if(!isset($_SESSION['usuario']))
 					// echo $usuario . " - " . $contrasenna;
 					$objeto = new dataBase();
 					$usuarioLogueado = (int)$_SESSION['id'];
-					$consulta = "select * from comentarios inner join usuario on idUsuario=idUsuarioComentario where idPublicacionComentario=" . $idPublicacion . " order by idComentario desc;";
+					$consulta = "select * from comentarioComentario inner join usuario on idUsuario=idUsuarioComentario where idComentario=" . $idComentario . " order by idComentarioComentario desc;";
 					// echo "con: " . $consulta;
 					$result = $objeto->consultar($consulta);
 
@@ -82,12 +82,12 @@ if(!isset($_SESSION['usuario']))
 						$todo = $todo . '<div class="my-2 mx-auto p-relative bg-white shadow-1" style="width: 100%; overflow: hidden; border-radius: 10px;">';
 						$contador = $contador+1;
 						$todo = $todo . '<h4>' . $fila['nombreUsuario'] . " " . $fila['apellidoUsuario'] . '</h4></br>';
-						$todo = $todo . '<p>' . $fila['descripcion'] . '</p></br>';
+						$todo = $todo . '<p>' . $fila['descripcionComentario'] . '</p></br>';
 						// $todo = $todo . '<p>idComentario = ' . $fila['idComentario'] . '</p></br>';
 
-						$todo = $todo . '<a href="../php/meGustaComentario.php?idComentario='. $fila['idComentario'] . '" class="pr-2"><i class="far fa-thumbs-up"></i></a>';
-						$todo = $todo . '<a href="verComentariosComentarios.php?idComentario=' . $fila['idComentario'] . '" class="pr-2">Comentar</a>';
-						$todo = $todo . '<a href="verGustaComentarios.php?idComentario=' .  $fila['idComentario'] .  '">Ver likes</a>';
+						// $todo = $todo . '<a href="../php/meGustaComentario.php?idComentario='. $fila['idComentario'] . '" class="pr-2"><i class="far fa-thumbs-up"></i></a>';
+						// $todo = $todo . '<a href="#" class="pr-2">Comentar</a>';
+						// $todo = $todo . '<a href="verGustaComentarios.php?idComentario=' .  $fila['idComentario'] .  '">Ver likes</a>';
 						// $todo = $todo . '<a href="#">Comentar</a>';
 						$todo = $todo . '</div>';
 					}
@@ -100,11 +100,11 @@ if(!isset($_SESSION['usuario']))
 					{
 						if($contador==1)
 						{
-							$todo ='<p>Una persona comentó esta publicacion</p>' . $todo;
+							$todo ='<p>Una persona comentó este comentario</p>' . $todo;
 						}
 						else
 						{
-							$todo ='<p>' . $contador . ' personas comentaron esta publicacion</p>' .  $todo;
+							$todo ='<p>' . $contador . ' personas comentaron este comentario</p>' .  $todo;
 						}
 					}
 						
