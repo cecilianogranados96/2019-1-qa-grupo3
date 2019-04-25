@@ -14,15 +14,15 @@ if(!isset($_SESSION['usuario']))
 		<title>Añadir Usuario</title>
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
 		  <!-- Font Awesome -->
 		  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 		  <!-- Ionicons -->
 		  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 		  <!-- Theme style -->
-		  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+		  <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
 		  <!-- iCheck -->
-		  <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
+		  <link rel="stylesheet" href="../plugins/iCheck/square/blue.css">
         <link href="https://fonts.googleapis.com/css?family=Coiny" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	</head>
