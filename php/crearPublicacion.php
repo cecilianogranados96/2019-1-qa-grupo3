@@ -24,12 +24,6 @@
 
 	  $nombre = $datos[0] . time() . "." . $datos[1];
 
-	  // echo "</br>".$rrr[0]. "" . time() . " . " . time() ."</br>";
-	  // echo "</br>".$rrr[1]. time() . "</br>";
-
-	  // move_uploaded_file($_FILES['archivo']['tmp_name'],"../publicaciones/images/" . $_FILES['archivo']['name']);//<em id="__mceDel"> </em>;
-
-
 
 		move_uploaded_file($_FILES['archivo']['tmp_name'],"../images/publicaciones/" . $nombre);//<em id="__mceDel"> </em>;
 
@@ -61,14 +55,6 @@
 		{
 			echo "Error, la información no es correcta";
 		}
-
-
-		
-		// $todo = "";
-		// $objeto = 0;
-
 	 }
-
-	  /*ahora co la funcion move_uploaded_file lo guardaremos en el destino que queramos*/
 
   ?>

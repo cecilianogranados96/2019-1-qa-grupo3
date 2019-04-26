@@ -50,7 +50,7 @@ if(!isset($_SESSION['usuario']))
 					// echo $_SESSION['imagen'];
 					echo '<img src="' . $_SESSION['imagen'] . '" alt="" width="8%">';
 				?>
-				
+				<!-- Crear Publicacion -->
 				<form action="../php/crearPublicacion.php" method="post" class="width:100%;" enctype="multipart/form-data">
 					
 					<div class="form-group row">
