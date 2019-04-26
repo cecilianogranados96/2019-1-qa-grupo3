@@ -78,8 +78,8 @@ create table comentarioComentario
     foreign key idUsuarioComentario (idUsuarioComentario) references usuario(idUsuario)
 );
 Alter table comentarioComentario add column descripcionComentario varchar(1024) after idComentario;
-insert into comentarioComentario (idUsuarioComentario,idComentario, descripcionComentario) values (1,4,'ComentarioPrueba');
-select * from publicacion;
+-- insert into comentarioComentario (idUsuarioComentario,idComentario, descripcionComentario) values (1,4,'ComentarioPrueba');
+-- select * from publicacion;
 -- delete from likeComentario where idComentario = 0 or idComentario=4;
 -- insert into likeComentario (idComentario,idUsuarioLike) values ();
 
